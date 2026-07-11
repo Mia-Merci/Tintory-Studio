@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tintory Studio — Fashion</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #5B3F32;
+      --title: #3F63BC;
+      --intro: #E4D8DE;
+      --body: #3F63BC;
+      --accent: #E6BD7E;
+      --line: rgba(228, 216, 222, 0.24);
+      --nav-bg: rgba(91, 63, 50, 0.94);
+
+      --max: 1440px;
+      --grid-margin: clamp(24px, 5vw, 72px);
+      --nav-h: 68px;
+
+      --futura: Futura, "Futura PT", "Avenir Next", "Helvetica Neue", "Noto Sans SC", Arial, sans-serif;
+      --sans: var(--futura);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--intro);
+      font-family: var(--sans);
+      font-weight: 700;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.35'/%3E%3C/svg%3E");
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      padding: 0 var(--grid-margin);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav__brand {
+
+font-size:12px;
+
+font-weight:700;
+
+letter-spacing:.18em;
+
+text-transform:uppercase;
+
+color:#3F63BC;
+
+transition:color .3s ease;
+
+}
+
+
+.nav__brand:hover {
+
+color:#E6BD7E;
+
+}
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.4vw, 34px);
+    }
+
+    .nav__links a {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--intro);
+      transition: color 0.3s ease;
+    }
+
+    .nav__links a:hover,
+    .nav__links a.is-current {
+      color: var(--accent);
+    }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--grid-margin);
+    }
+
+    .section {
+      min-height: 100vh;
+      padding: calc(var(--nav-h) + 88px) 0 112px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section--compact {
+      min-height: auto;
+      padding: 140px 0;
+    }
+
+    .section__index {
+      grid-column: 1 / 3;
+      padding-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section__body {
+      grid-column: 4 / 12;
+    }
+
+    .eyebrow {
+      margin-bottom: 32px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .display {
+      font-size: clamp(58px, 8vw, 126px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      color: var(--title);
+    }
+
+    .display-small {
+      font-size: clamp(34px, 4.4vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .body-text {
+      max-width: 620px;
+      font-size: clamp(15px, 1.2vw, 17px);
+      font-weight: 700;
+      line-height: 2.05;
+      color: var(--intro);
+    }
+
+    .body-text p + p {
+      margin-top: 28px;
+    }
+
+    .small-text {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      color: var(--intro);
+    }
+
+  .hero {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+  align-items: center;
+}
+
+.hero__main {
+  grid-column: 1 / 7;
+  padding-top: 48px;
+}
+
+.hero__sub {
+  margin-top: 40px;
+  max-width: 520px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 2;
+  letter-spacing: 0;
+  color: #E4D8DE;
+}
+
+
+.hero__filters {
+  grid-column: 9 / 13;
+  align-self: center;
+  padding-top: calc(var(--nav-h) + 88px);
+  padding-bottom: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero__filters a {
+  display: block;
+  width: fit-content;
+  color: #E4D8DE;
+  cursor: pointer;
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.hero__filters a span,
+.hero__filters a em {
+  color: inherit;
+}
+
+.hero__filters a:hover,
+.hero__filters a:focus {
+  color: var(--accent);
+  transform: translateX(8px);
+}
+
+.hero__filters span {
+  display: block;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.hero__filters em {
+  display: block;
+  margin-top: 10px;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-align: left;
+  white-space: nowrap;
+}
+
+    .hero__meta {
+      grid-column: 1 / 4;
+      align-self: end;
+      padding-bottom: 54px;
+      font-weight: 400;
+      color: var(--intro);
+    }
+
+    .hero__mark {
+      grid-column: 10 / 13;
+      align-self: end;
+      padding-bottom: 54px;
+      text-align: right;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--intro);
+    }
+
+    .category-index {
+      grid-column: 3 / 12;
+      align-self: center;
+    }
+
+    .category-list {
+      margin-top: 72px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-item {
+      display: grid;
+      grid-template-columns: 80px 3fr 5fr 120px;
+      gap: 28px;
+      padding: 38px 0;
+      border-top: 1p x solid var(--line);
+      align-items: start;
+    }
+
+    .category-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .category-item__num {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+
+    .category-item__title {
+      font-size: clamp(30px, 3.4vw, 54px);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .category-item__cn {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .category-item__desc {
+      max-width: 560px;
+      font-size: 15px;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .category-item__link {
+      padding-top: 4px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--intro);
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .category-item:hover .category-item__link {
+      color: var(--accent);
+      transform: translateX(8px);
+    }
+
+    .featured {
+      grid-column: 4 / 12;
+      display: grid;
+      grid-template-columns: 5fr 4fr;
+      gap: clamp(48px, 7vw, 96px);
+      align-items: end;
+    }
+
+    .featured__label {
+      margin-bottom: 28px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .featured__title {
+      max-width: 720px;
+      font-size: clamp(42px, 5.4vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      color: var(--title);
+    }
+
+    .featured__desc {
+      max-width: 500px;
+      font-size: 15px;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .featured__link {
+      display:inline-block;
+      margin-top:32px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#E6BD7E;
+      transition:
+      color .3s ease,
+      transform .3s ease;
+      }
+
+
+    .featured__link:hover {
+      color:#E4D8DE;
+      transform:translateX(8px);
+    }
+
+    .method-grid {
+      grid-column: 4 / 12;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .method {
+      min-height: 260px;
+      padding: clamp(32px, 4vw, 52px);
+      background: var(--bg);
+    }
+
+    .method__title {
+      margin-bottom: 28px;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .method__desc {
+      max-width: 460px;
+      font-size: 15px;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .archive {
+      grid-column: 4 / 12;
+    }
+
+    .filter {
+      margin: 64px 0 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+    }
+
+    .filter__btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0 0 6px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--intro);
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .filter__btn:hover,
+    .filter__btn.is-active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .archive-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 48px;
+      padding: 38px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .archive-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .archive-item.is-hidden {
+      display: none;
+    }
+
+    .archive-item__meta {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .archive-item__title {
+      max-width: 760px;
+      margin-bottom: 14px;
+      font-size: clamp(26px, 2.8vw, 44px);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: var(--title);
+    }
+
+    .archive-item__title{
+    transition:
+    color .3s ease;
+    }
+
+
+  .archive-item a:hover .archive-item__title{
+  color:#E6BD7E;
+  }
+
+    .archive-item__desc {
+      max-width: 560px;
+      font-size: 15px;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .closing {
+      min-height: 88vh;
+      padding: 160px 0 72px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+    }
+
+    .closing__main {
+      grid-column: 2 / 11;
+      align-self: center;
+    }
+
+    .closing__line {
+      font-size: clamp(44px, 6vw, 96px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      color: var(--title);
+    }
+
+    .closing__links {
+      margin-top: 64px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+    }
+
+    .closing__links a {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--intro);
+      transition: color 0.3s ease;
+    }
+
+    .closing__links a:hover {
+      color: var(--accent);
+    }
+
+    .footer {
+      grid-column: 1 / 13;
+      align-self: end;
+      padding-top: 72px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--intro);
+    }
+
+    .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+    @media (max-width: 900px) {
+  .hero__main,
+  .hero__filters {
+    grid-column: 1 / -1;
+  }
+
+  .hero__filters {
+    margin-top: 64px;
+    padding-top: 0;
+    padding-bottom: 48px;
+    gap: 32px;
+  }
+
+  .hero__filters span {
+    font-size: 24px;
+  }
+}
+
+    @media (max-width: 560px) {
+      .nav__brand {
+        font-size: 11px;
+      }
+
+      .nav__links a:nth-child(3) {
+        display: none;
+      }
+
+      .display {
+        font-size: clamp(54px, 18vw, 78px);
+      }
+
+      .display-small {
+        font-size: 34px;
+      }
+
+      .body-text,
+      .category-item__desc,
+      .featured__desc,
+      .method__desc,
+      .archive-item__desc {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 900px) {
+  .hero__main,
+  .hero__filters {
+    grid-column: 1 / -1;
+  }
+
+  .hero__filters {
+    margin-top: 64px;
+    padding-bottom: 48px;
+  }
+
+  .hero__filters a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .closing {
+    padding: 104px 0 48px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.pagination {
+  margin-top: 48px;
+  display: flex;
+  gap: 18px;
+}
+
+.pagination__btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--intro);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.pagination__btn:hover,
+.pagination__btn.is-active {
+  color: var(--accent);
+}
+
+.closing {
+  min-height: auto;
+  padding: 140px 0 72px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 24px;
+}
+
+.closing__main {
+  grid-column: 1 / 13;
+  margin-bottom: 96px;
+}
+
+.back-top {
+  font-size: clamp(38px, 5vw, 72px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  color: var(--title);
+  transition: color 0.3s ease;
+}
+
+.back-top:hover {
+  color: var(--accent);
+}
+
+.footer {
+  grid-column: 1 / 13;
+  padding-top: 72px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--intro);
+}
+
+  </style>
+</head>
+
+<body id="top">
+  <nav class="nav">
+    <a class="nav__brand" href="index.html">Tintory</a>
+
+    <div class="nav__links">
+      <a href="graphic.html">Graphic</a>
+      <a href="fashion.html" class="is-current">Fashion</a>
+      <a href="culture.html">Culture</a>
+      <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+  <div class="hero__main">
+    <p class="eyebrow">Fashion</p>
+
+    <h1 class="display">
+      Body as<br>
+      Architecture
+    </h1>
+
+    <p class="hero__sub">
+      我们观察服装如何塑造身体，秀场如何组织空间，品牌如何书写时代，而风格如何成为一个人的视觉传记。
+    </p>
+  </div>
+
+  <div class="hero__filters">
+    <a href="#archive" data-jump-filter="runway">
+      <span>Runway</span>
+      <em>秀场报道</em>
+    </a>
+
+    <a href="#archive" data-jump-filter="brand">
+      <span>Brand Archive</span>
+      <em>品牌故事</em>
+    </a>
+
+    <a href="#archive" data-jump-filter="styling">
+      <span>Styling</span>
+      <em>风格分析</em>
+    </a>
+
+    <a href="#archive" data-jump-filter="profiles">
+      <span>Profiles</span>
+      <em>人物传记</em>
+    </a>
+  </div>
+</header>
+
+
+    <section class="section section--compact">
+      <aside class="section__index reveal">Ⅰ / Featured</aside>
+
+      <div class="featured reveal">
+        <div>
+          <p class="featured__label">Featured Article</p>
+
+          <h2 class="featured__title">
+            Lightness as Resistance:
+      Chanel SS26 Finds Air Within Tweed
+          </h2>
+        </div>
+
+        <div>
+          <p class="featured__desc">
+            秀场不是展示衣服的地方，而是品牌向世界提出问题的方式。空间、声音、灯光、模特动线与服装共同构成一种临时建筑，让身体在其中成为论证的一部分。
+          </p>
+
+          <a class="featured__link" href="chanel-ss26-review.html">Read Article →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--compact" id="archive">
+      <aside class="section__index reveal">Ⅲ / Archive</aside>
+
+      <div class="archive reveal">
+        <p class="eyebrow">Archive List</p>
+
+        <h2 class="display-small">
+          Notes, essays and visual readings.
+        </h2>
+
+        <div class="filter" aria-label="Fashion archive filters">
+          <button class="filter__btn is-active" data-filter="all">All</button>
+          <button class="filter__btn" data-filter="runway">Runway</button>
+          <button class="filter__btn" data-filter="brand">Brand Archive</button>
+          <button class="filter__btn" data-filter="styling">Styling</button>
+          <button class="filter__btn" data-filter="profiles">Profiles</button>
+        </div>
+
+        <div class="archive-list">
+          <article class="archive-item" data-category="runway">
+            <div class="archive-item__meta">2026 / Runway</div>
+            <div>
+              <a href="Miu Miu and the Grammar of Girlhood.html">
+              <h3 class="archive-item__title">The Silence of a Black Coat</h3>
+              </a>
+              <p class="archive-item__desc">
+                秀场如何用黑色、沉默与步伐建立一场关于身体边界的论证。
+              </p>
+            </div>
+          </article>
+
+          <article class="archive-item" data-category="brand">
+            <div class="archive-item__meta">2026 / Brand Archive</div>
+            <div>
+              <a href="Miu Miu and the Grammar of Girlhood.html">
+              <h3 class="archive-item__title">Miu Miu and the Grammar of Girlhood</h3>
+              </a>
+              <p class="archive-item__desc">
+                从广告、秀场与造型系统中，追踪少女感如何成为一种品牌语言。
+              </p>
+            </div>
+          </article>
+
+          <article class="archive-item" data-category="styling">
+            <div class="archive-item__meta">2026 / Styling</div>
+            <div>
+              <a href="Why Proportion Speaks Before Color.html">
+              <h3 class="archive-item__title">Why Proportion Speaks Before Color</h3>
+              </a>
+              <p class="archive-item__desc">
+                风格首先不是颜色问题，而是身体比例、重心与视觉节奏的问题。
+              </p>
+            </div>
+          </article>
+
+          <article class="archive-item" data-category="profiles">
+            <div class="archive-item__meta">2026 / Profiles</div>
+            <div>
+              <a href="onathan Anderson.html">
+              <h3 class="archive-item__title">Jonathan Anderson</h3>
+              </a>
+              <p class="archive-item__desc">
+                乔纳森·安德森：服饰应该超越性别
+              </p>
+            </div>
+          </article>
+
+          <article class="archive-item" data-category="runway">
+            <div class="archive-item__meta">2026 / Runway</div>
+            <div>
+              <a href="chanel-ss26-review.html">
+              <h3 class="archive-item__title">Lightness as Resistance:
+                Chanel SS26 Finds Air Within Tweed
+              </h3>
+              </a>
+              <p class="archive-item__desc">
+                轻是一种抵抗：Chanel 2026春夏女装，在斜纹软呢中寻找空气
+              </p>
+            </div>
+          </article>
+
+          <article class="archive-item" data-category="runway">
+            <div class="archive-item__meta">2026 / Runway</div>
+            <div>
+              <a href="Dior 2027 Spring Men.html">
+              <h3 class="archive-item__title">Dior 2027 Spring Men</h3>
+              </a>
+              <p class="archive-item__desc">
+                Dior: 在反叛中突破
+              </p>
+            </div>
+          </article>
+
+          <div class="pagination" aria-label="Archive pagination">
+  <button class="pagination__btn is-active" data-page="1">1</button>
+  <button class="pagination__btn" data-page="2">2</button>
+  <button class="pagination__btn" data-page="3">3</button>
+</div>
+    </section>
+
+    <section class="closing" id="page-bottom">
+  <div class="closing__main">
+    <a class="back-top" href="#top">Back To Top</a>
+  </div>
+
+  <footer class="footer">
+    <span>Tintory Studio</span>
+    <span>Visual Archaeology</span>
+    <span>Established 2026</span>
+  </footer>
+</section>
+
+  </main>
+
+
+<script>
+  const filterButtons = document.querySelectorAll(".filter__btn");
+  const archiveItems = Array.from(document.querySelectorAll(".archive-item"));
+  const jumpFilterLinks = document.querySelectorAll("[data-jump-filter]");
+  const paginationButtons = document.querySelectorAll(".pagination__btn");
+
+  let currentFilter = "all";
+  let currentPage = 1;
+  const itemsPerPage = 5;
+
+  function renderArchive() {
+    const filteredItems = archiveItems.filter(item => {
+      return currentFilter === "all" || item.dataset.category === currentFilter;
+    });
+
+    archiveItems.forEach(item => {
+      item.classList.add("is-hidden");
+    });
+
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    filteredItems.slice(start, end).forEach(item => {
+      item.classList.remove("is-hidden");
+    });
+
+    paginationButtons.forEach(button => {
+      const page = Number(button.dataset.page);
+      const hasItems = filteredItems.length > (page - 1) * itemsPerPage;
+
+      button.style.display = hasItems ? "inline-block" : "none";
+      button.classList.toggle("is-active", page === currentPage);
+    });
+  }
+
+  function applyFilter(filter) {
+    currentFilter = filter;
+    currentPage = 1;
+
+    filterButtons.forEach(button => {
+      button.classList.toggle("is-active", button.dataset.filter === filter);
+    });
+
+    renderArchive();
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      applyFilter(button.dataset.filter);
+    });
+  });
+
+  paginationButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      currentPage = Number(button.dataset.page);
+      renderArchive();
+    });
+  });
+
+  jumpFilterLinks.forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+
+      const filter = link.dataset.jumpFilter;
+      const archive = document.querySelector("#archive");
+
+      applyFilter(filter);
+
+      if (archive) {
+        archive.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
+  });
+
+  renderArchive();
+</script>
+</body>
+</html>

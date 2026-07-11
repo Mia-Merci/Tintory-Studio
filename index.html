@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tintory Studio — Visual Archaeology</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #5B3F32;
+      --title: #3F63BC;
+      --intro: #E4D8DE;
+      --body: #3F63BC;
+      --accent: #E6BD7E;
+      --line: rgba(228, 216, 222, 0.24);
+      --nav-bg: rgba(91, 63, 50, 0.94);
+
+      --max: 1440px;
+      --grid-margin: clamp(24px, 5vw, 72px);
+      --nav-h: 68px;
+
+      --futura: Futura, "Futura PT", "Avenir Next", "Helvetica Neue", "Noto Sans SC", Arial, sans-serif;
+      --sans: var(--futura);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--sans);
+      font-weight: 700;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.35'/%3E%3C/svg%3E");
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* NAV */
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      padding: 0 var(--grid-margin);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav__brand {
+
+font-size:12px;
+
+font-weight:700;
+
+letter-spacing:.18em;
+
+text-transform:uppercase;
+
+color:#3F63BC;
+
+transition:color .3s ease;
+
+}
+
+
+.nav__brand:hover {
+
+color:#E6BD7E;
+
+}
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.4vw, 34px);
+    }
+
+    .nav__links a {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--intro);
+      transition: color 0.3s ease;
+    }
+
+    .nav__links a:hover {
+      color: var(--accent);
+    }
+
+    /* BASE LAYOUT */
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--grid-margin);
+    }
+
+    .section {
+      min-height: 100vh;
+      padding: calc(var(--nav-h) + 88px) 0 112px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section--compact {
+      min-height: auto;
+      padding: 140px 0;
+    }
+
+    .section__index {
+      grid-column: 1 / 3;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 8px;
+    }
+
+    .section__body {
+      grid-column: 4 / 11;
+    }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .display {
+      font-family: var(--sans);
+      font-size: clamp(54px, 8vw, 118px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .display-cn {
+      font-family: var(--sans);
+      font-size: clamp(32px, 4.3vw, 58px);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+      color: var(--title);
+    }
+
+    .title {
+      font-family: var(--sans);
+      font-size: clamp(38px, 5vw, 72px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.055em;
+      margin-bottom: 48px;
+      color: var(--title);
+    }
+
+    .cn-title {
+      font-family: var(--sans);
+      font-size: clamp(24px, 2.4vw, 36px);
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.035em;
+      margin-bottom: 36px;
+      color: var(--title);
+    }
+
+    .body-text {
+      max-width: 620px;
+      font-size: clamp(15px, 1.2vw, 17px);
+      font-weight: 700;
+      line-height: 2.05;
+      color: var(--body);
+    }
+
+    .body-text p + p {
+      margin-top: 28px;
+    }
+
+    .small-text {
+      font-family: var(--sans);
+      font-size: 12px;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      color: var(--intro);
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: center;
+    }
+
+    .hero__main {
+      grid-column: 1 / 10;
+      padding-top: 48px;
+    }
+
+    .hero__sub {
+      grid-column: 7 / 12;
+      margin-top: 56px;
+      max-width: 460px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .hero__meta {
+      grid-column: 1 / 4;
+      align-self: end;
+      padding-bottom: 54px;
+      color: var(--intro);
+      font-weight: 400;
+    }
+
+    .hero__mark {
+      grid-column: 10 / 13;
+      align-self: end;
+      padding-bottom: 54px;
+      text-align: right;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--intro);
+    }
+
+    /* DISCIPLINES */
+
+    .discipline-intro {
+      grid-column: 3 / 10;
+      align-self: center;
+    }
+
+    .discipline-links {
+      margin-top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .discipline-links a {
+      width: fit-content;
+      font-family: var(--sans);
+      font-size: clamp(42px, 6vw, 86px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.055em;
+      color: var(--title);
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .discipline-links a:hover {
+      color: var(--accent);
+      transform: translateX(12px);
+    }
+
+    .discipline-note {
+      margin-top: 56px;
+      max-width: 480px;
+      color: var(--intro);
+    }
+
+    /* MANIFESTO */
+
+    .manifesto-block {
+      max-width: 680px;
+    }
+
+    .manifesto-block h3 {
+      font-family: var(--sans);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .manifesto-block article + article {
+      margin-top: 72px;
+    }
+
+    .manifesto-block .body-text {
+      color: var(--intro);
+    }
+
+    /* LIST SECTIONS */
+
+    .list {
+      grid-column: 4 / 12;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: 3fr 5fr;
+      gap: 48px;
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .list-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .list-item__title {
+      font-family: var(--sans);
+      font-size: clamp(30px, 3vw, 46px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .list-item__title.cn {
+      font-family: var(--sans);
+      font-size: clamp(22px, 2vw, 30px);
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: -0.035em;
+      color: var(--title);
+    }
+
+    .list-item__desc {
+      max-width: 560px;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 2;
+      color: var(--intro);
+    }
+
+    .list-item__tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* QUOTE */
+
+    .quote-section {
+      min-height: 82vh;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quote {
+      grid-column: 3 / 11;
+      font-family: var(--sans);
+      font-size: clamp(38px, 5.6vw, 82px);
+      font-weight: 700;
+      line-height: 1.04;
+      letter-spacing: -0.055em;
+      color: var(--accent);
+    }
+
+    .quote span {
+      color: var(--accent);
+    }
+
+    /* CONTACT */
+
+    .contact {
+      min-height: 88vh;
+      padding: 160px 0 72px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 24px;
+    }
+
+    .contact__main {
+      grid-column: 2 / 10;
+      align-self: center;
+    }
+
+    .contact__line {
+      font-family: var(--sans);
+      font-size: clamp(44px, 6vw, 96px);
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      color: var(--title);
+    }
+
+    .contact__links {
+      margin-top: 64px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+    }
+
+    .contact__links a {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--intro);
+      transition: color 0.3s ease;
+    }
+
+    .contact__links a:hover {
+      color: var(--accent);
+    }
+
+    .footer {
+      grid-column: 1 / 13;
+      align-self: end;
+      padding-top: 72px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--intro);
+    }
+
+    /* REVEAL */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+      :root {
+        --nav-h: 64px;
+      }
+
+      .nav {
+        padding: 0 20px;
+      }
+
+      .nav__links {
+        gap: 14px;
+      }
+
+      .nav__links a {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+
+      .nav__links a:nth-child(4) {
+        display: none;
+      }
+
+      .page {
+        padding: 0 20px;
+      }
+
+      .hero,
+      .section,
+      .quote-section,
+      .contact {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+      }
+
+      .hero {
+        align-items: center;
+      }
+
+      .hero__main,
+      .hero__sub,
+      .hero__meta,
+      .hero__mark,
+      .section__index,
+      .section__body,
+      .discipline-intro,
+      .list,
+      .quote,
+      .contact__main,
+      .footer {
+        grid-column: 1 / -1;
+      }
+
+      .hero__sub {
+        margin-top: 42px;
+      }
+
+      .hero__meta,
+      .hero__mark {
+        display: none;
+      }
+
+      .section {
+        min-height: auto;
+        padding: 104px 0;
+      }
+
+      .section__index {
+        margin-bottom: 36px;
+      }
+
+      .discipline-links {
+        margin-top: 52px;
+      }
+
+      .list-item {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 36px 0;
+      }
+
+      .quote-section {
+        min-height: 70vh;
+      }
+
+      .quote {
+        font-size: clamp(38px, 12vw, 62px);
+      }
+
+      .contact {
+        padding: 120px 0 48px;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav__brand {
+        font-size: 11px;
+      }
+
+      .nav__links a:nth-child(3) {
+        display: none;
+      }
+
+      .display {
+        font-size: clamp(54px, 18vw, 78px);
+      }
+
+      .display-cn {
+        font-size: 30px;
+      }
+
+      .body-text {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <a class="nav__brand" href="index.html">Tintory</a>
+    <div class="nav__links">
+      <a href="graphic.html">Graphic</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="culture.html">Culture</a>
+      <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <header class="hero">
+      <div class="hero__main reveal">
+        <h1 class="display">
+          Tintory<br>
+          Studio
+        </h1>
+      </div>
+
+      <p class="hero__sub reveal">
+        一个以视觉考古为方法的研究型工作室，在平面设计、时尚观察与文化探索之间，寻找被时间、身体与地域共同塑造的美学秩序。
+      </p>
+
+      <div class="hero__meta small-text reveal">
+        Visual Archaeology<br>
+        Established 2026
+      </div>
+
+      <div class="hero__mark reveal">
+        Graphic<br>
+        Fashion<br>
+        Culture
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="discipline-intro reveal">
+        <p class="eyebrow">A visual research studio</p>
+
+        <h2 class="display-cn">
+          我们不制造风格。<br>
+          我们发掘结构。
+        </h2>
+
+        <div class="discipline-links">
+          <a href="graphic.html">Graphic</a>
+          <a href="fashion.html">Fashion</a>
+          <a href="culture.html">Culture</a>
+        </div>
+
+        <p class="discipline-note body-text">
+          Tintory 将图像视为一种历史材料。字体、衣料、银饰、秀场、纹样、版面与空间，并不是彼此孤立的视觉事件，而是同一套观看方式在不同媒介中的显影。
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <aside class="section__index reveal">Ⅰ / Manifesto</aside>
+
+      <div class="section__body manifesto-block reveal">
+        <article>
+          <h3>三个领域，一条线索</h3>
+
+          <div class="body-text">
+            <p>
+              平面设计是语法的底层——字体、配色、构成，是视觉思维的元语言。
+              时尚观察是语法在身体上的投射——廓形是空间构成，面料是质感对比，秀场是沉浸式排版。
+            </p>
+
+            <p>
+              文化探索是语法的源头——为什么苗族银饰用黑白对比？为什么日式侘寂偏爱不对称？每一个民族的审美选择，都是一套完整的视觉方法论。
+            </p>
+          </div>
+        </article>
+
+        <article>
+          <h3>方法而非风格</h3>
+
+          <div class="body-text">
+            <p>
+              我们不追求统一的 “Tintory 风格”。我们追求一套可迁移的视觉分析方法——无论是一张海报、一场秀、还是一个民族的服饰体系，我们问的是同一个问题：它的美来自什么结构？
+            </p>
+
+            <p>
+              这种追问使我们的产出不局限于某一类媒介。平面设计师、时尚评论人、文化研究者——在我们的工作方式中，这些身份是同一种能力的三种投射。
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact">
+      <aside class="section__index reveal">Ⅱ / Disciplines</aside>
+
+      <div class="list reveal">
+        <a class="list-item" href="graphic.html">
+          <div class="list-item__title">Graphic</div>
+
+          <div>
+            <p class="list-item__desc">
+              建立视觉语言的底层秩序。我们关注字体、网格、信息层级、色彩比例与印刷质感，让设计成为一种可被分析、延展与迁移的结构。
+            </p>
+
+            <span class="list-item__tag">Poster / Identity / Editorial / UI System</span>
+          </div>
+        </a>
+
+        <a class="list-item" href="fashion.html">
+          <div class="list-item__title">Fashion</div>
+
+          <div>
+            <p class="list-item__desc">
+              将服装视作身体上的建筑。廓形、面料、秀场音乐、空间装置与品牌叙事，共同构成一场关于时代气质的视觉文本。
+            </p>
+
+            <span class="list-item__tag">Runway / Brand Archive / Styling / Review</span>
+          </div>
+        </a>
+
+        <a class="list-item" href="culture.html">
+          <div class="list-item__title">Culture</div>
+
+          <div>
+            <p class="list-item__desc">
+              进入民族美学、地域纹样、工艺系统与历史现场，在被忽略的文化材料中，重新发现颜色、比例、符号与空间的秩序。
+            </p>
+
+            <span class="list-item__tag">Ethnic Aesthetics / Travel Notes / Craft / Symbols</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="quote-section">
+      <blockquote class="quote reveal">
+        We look at images<br>
+        as if they were<br>
+        <span>fragments of time.</span>
+      </blockquote>
+    </section>
+
+    <section class="section section--compact">
+      <aside class="section__index reveal">Ⅲ / Studio</aside>
+
+      <div class="list reveal">
+        <div class="list-item">
+          <div class="list-item__title cn">视觉身份</div>
+
+          <p class="list-item__desc">
+            为品牌、独立项目与文化机构建立视觉识别系统，包括 Logo、字体策略、色彩系统、版式规范与应用延展。
+          </p>
+        </div>
+
+        <div class="list-item">
+          <div class="list-item__title cn">编辑设计</div>
+
+          <p class="list-item__desc">
+            为杂志、展览、出版物、专题页面与数字内容建立编辑节奏，让文字、图像与留白形成清晰而有气质的阅读关系。
+          </p>
+        </div>
+
+        <div class="list-item">
+          <div class="list-item__title cn">视觉研究</div>
+
+          <p class="list-item__desc">
+            围绕时尚、文化、地域美学与图像系统进行研究写作，输出文章、策划提案、品牌分析与视觉方法论。
+          </p>
+        </div>
+
+        <div class="list-item">
+          <div class="list-item__title cn">创意方向</div>
+
+          <p class="list-item__desc">
+            为影像、摄影、社交媒体内容与品牌项目提供概念设定、视觉语气、拍摄方向、叙事结构与整体美术把控。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="contact__main reveal">
+        <p class="eyebrow">Contact</p>
+
+        <h2 class="contact__line">
+          If our ways<br>
+          of seeing<br>
+          resonate.
+        </h2>
+
+        <div class="contact__links">
+          <a href="mailto:hello@tintory.studio">hello@tintory.studio</a>
+          <a href="#">Instagram</a>
+          <a href="#">Xiaohongshu</a>
+          <a href="#">Email</a>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span>Tintory Studio</span>
+        <span>Visual Archaeology</span>
+        <span>Established 2026</span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
