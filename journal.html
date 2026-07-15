@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="tintory-logo2.png">
+<title>Tintory Journal — Field Notes</title>
+<link rel="stylesheet"
+href="style.css">
+
+<style>
+/* =====================================================
+   TINTORY STUDIO
+   COMMON SYSTEM CSS
+===================================================== */
+
+
+:root {
+
+  --bg:#5B3F32;
+
+  --title:#3F63BC;
+
+  --intro:#E4D8DE;
+
+  --body:#3F63BC;
+
+  --accent:#E6BD7E;
+
+  --line:rgba(228,216,222,.24);
+
+  --nav-bg:rgba(91,63,50,.94);
+
+
+  --max:1440px;
+
+  --grid-margin:clamp(24px,5vw,72px);
+
+  --nav-h:68px;
+
+
+  --futura:
+  Futura,
+  "Futura PT",
+  "Avenir Next",
+  "Helvetica Neue",
+  "Noto Sans SC",
+  Arial,
+  sans-serif;
+
+
+  --sans:var(--futura);
+
+}
+
+
+
+/* =====================================================
+ RESET
+===================================================== */
+
+
+* {
+
+box-sizing:border-box;
+
+margin:0;
+
+padding:0;
+
+}
+
+
+
+html {
+
+scroll-behavior:smooth;
+
+font-size:16px;
+
+}
+
+
+
+body {
+
+background:var(--bg);
+
+color:var(--body);
+
+font-family:var(--sans);
+
+font-weight:700;
+
+line-height:1.8;
+
+-webkit-font-smoothing:antialiased;
+
+text-rendering:optimizeLegibility;
+
+}
+
+
+
+
+
+
+a {
+
+color:inherit;
+
+text-decoration:none;
+
+}
+
+
+
+::selection {
+
+background:var(--accent);
+
+color:var(--bg);
+
+}
+
+
+
+/* =====================================================
+ NAVIGATION
+===================================================== */
+
+
+.nav {
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+right:0;
+
+height:var(--nav-h);
+
+z-index:100;
+
+
+padding:0 var(--grid-margin);
+
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+
+background:var(--nav-bg);
+
+border-bottom:1px solid var(--line);
+
+backdrop-filter:blur(20px);
+
+}
+
+
+
+.nav__brand {
+
+font-size:12px;
+
+font-weight:700;
+
+letter-spacing:.18em;
+
+text-transform:uppercase;
+
+color:var(--title);
+
+transition:.3s;
+
+}
+
+
+
+.nav__brand:hover {
+
+color:var(--accent);
+
+}
+
+
+
+.nav__links {
+
+display:flex;
+
+align-items:center;
+
+gap:clamp(18px,2.4vw,34px);
+
+}
+
+
+
+.nav__links a {
+
+font-size:11px;
+
+font-weight:700;
+
+letter-spacing:.16em;
+
+text-transform:uppercase;
+
+color:var(--intro);
+
+transition:.3s;
+
+}
+
+
+
+.nav__links a:hover {
+
+color:var(--accent);
+
+}
+
+
+
+
+.nav__links a.active {
+
+color:var(--accent);
+
+position:relative;
+
+}
+
+
+.nav__links a.active::after {
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+right:0;
+
+bottom:-8px;
+
+height:2px;
+
+background:var(--accent);
+
+}
+
+
+
+/* =====================================================
+ PAGE GRID
+===================================================== */
+
+
+.page {
+
+max-width:var(--max);
+
+margin:0 auto;
+
+padding:0 var(--grid-margin);
+
+}
+
+
+
+.section {
+
+
+min-height:100vh;
+
+
+padding:
+calc(var(--nav-h) + 88px)
+0
+112px;
+
+
+display:grid;
+
+
+grid-template-columns:
+repeat(12,1fr);
+
+
+column-gap:24px;
+
+
+border-bottom:1px solid var(--line);
+
+
+}
+
+
+
+.section--compact {
+
+min-height:auto;
+
+padding:140px 0;
+
+}
+
+
+
+.section__index {
+
+
+grid-column:1 / 3;
+
+
+font-size:11px;
+
+font-weight:700;
+
+letter-spacing:.16em;
+
+text-transform:uppercase;
+
+
+color:var(--accent);
+
+
+padding-top:8px;
+
+}
+
+
+
+.section__body {
+
+grid-column:4 / 11;
+
+}
+
+
+
+/* =====================================================
+ TYPOGRAPHY
+===================================================== */
+
+
+.eyebrow {
+
+font-size:11px;
+
+font-weight:700;
+
+letter-spacing:.2em;
+
+text-transform:uppercase;
+
+color:var(--accent);
+
+margin-bottom:32px;
+
+}
+
+
+
+.display {
+
+font-size:
+clamp(54px,8vw,118px);
+
+
+font-weight:700;
+
+
+line-height:.92;
+
+
+letter-spacing:-.055em;
+
+
+color:var(--title);
+
+}
+
+
+
+.display-cn {
+
+font-size:
+clamp(32px,4.3vw,58px);
+
+
+font-weight:700;
+
+
+line-height:1.25;
+
+
+letter-spacing:-.035em;
+
+
+color:var(--title);
+
+}
+
+
+
+.title {
+
+font-size:
+clamp(38px,5vw,72px);
+
+
+font-weight:700;
+
+
+line-height:1;
+
+
+letter-spacing:-.055em;
+
+
+color:var(--title);
+
+}
+
+
+
+.body-text {
+
+max-width:620px;
+
+
+font-size:
+clamp(15px,1.2vw,17px);
+
+
+font-weight:700;
+
+
+line-height:2.05;
+
+
+color:var(--body);
+
+}
+
+
+
+.small-text {
+
+font-size:12px;
+
+line-height:1.8;
+
+letter-spacing:.03em;
+
+color:var(--intro);
+
+}
+
+
+
+/* =====================================================
+ HERO
+===================================================== */
+
+
+.hero {
+
+
+min-height:100vh;
+
+
+padding-top:var(--nav-h);
+
+
+display:grid;
+
+
+grid-template-columns:
+repeat(12,1fr);
+
+
+column-gap:24px;
+
+
+align-items:center;
+
+
+}
+
+
+
+.hero__main {
+
+grid-column:1 / 10;
+
+padding-top:48px;
+
+}
+
+
+
+.hero__sub {
+
+
+grid-column:7 / 12;
+
+
+margin-top:56px;
+
+
+max-width:460px;
+
+
+font-size:16px;
+
+
+font-weight:700;
+
+
+line-height:2;
+
+
+color:var(--intro);
+
+
+}
+
+
+
+.hero__meta {
+
+
+grid-column:1 / 4;
+
+
+align-self:end;
+
+
+padding-bottom:54px;
+
+
+}
+
+
+
+.hero__mark {
+
+
+grid-column:10 / 13;
+
+
+align-self:end;
+
+
+padding-bottom:54px;
+
+
+text-align:right;
+
+
+font-size:11px;
+
+
+letter-spacing:.18em;
+
+
+text-transform:uppercase;
+
+
+color:var(--intro);
+
+
+}
+
+
+
+/* =====================================================
+ COMMON ANIMATION
+===================================================== */
+
+
+.reveal {
+
+opacity:0;
+
+transform:translateY(18px);
+
+
+transition:
+opacity .9s ease,
+transform .9s ease;
+
+}
+
+
+
+.reveal.is-visible {
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+
+/* =====================================================
+ FOOTER
+===================================================== */
+
+
+.footer {
+
+
+grid-column:1 / 13;
+
+
+align-self:end;
+
+
+padding-top:72px;
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+border-top:1px solid var(--line);
+
+
+
+font-size:11px;
+
+
+font-weight:400;
+
+
+letter-spacing:.14em;
+
+
+text-transform:uppercase;
+
+
+color:var(--intro);
+
+
+}
+
+
+
+/* =====================================================
+ RESPONSIVE
+===================================================== */
+
+
+@media(max-width:900px){
+
+
+:root {
+
+--nav-h:64px;
+
+}
+
+
+.nav {
+
+padding:0 20px;
+
+}
+
+
+.nav__links {
+
+gap:14px;
+
+}
+
+
+
+.nav__links a {
+
+font-size:10px;
+
+}
+
+
+
+.page {
+
+padding:0 20px;
+
+}
+
+
+
+.hero,
+.section {
+
+grid-template-columns:1fr;
+
+column-gap:0;
+
+}
+
+
+
+.hero__main,
+.hero__sub,
+.hero__meta,
+.hero__mark,
+.section__index,
+.section__body,
+.footer {
+
+grid-column:1 / -1;
+
+}
+
+
+
+.hero__meta,
+.hero__mark {
+
+display:none;
+
+}
+
+
+
+.section {
+
+padding:104px 0;
+
+}
+
+
+
+.section__index {
+
+margin-bottom:36px;
+
+}
+
+
+
+.footer {
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+
+}
+
+
+
+/* =====================
+ JOURNAL HERO
+===================== */
+
+
+.journal {
+
+max-width:1440px;
+
+margin:auto;
+
+padding:
+140px 72px;
+
+}
+
+
+
+.journal-hero {
+
+
+min-height:90vh;
+
+
+}
+
+
+
+.journal-hero h1 {
+
+
+font-size:
+
+clamp(60px,8vw,120px);
+
+
+line-height:.9;
+
+
+letter-spacing:-.06em;
+
+
+color:#3F63BC;
+
+
+margin-top:40px;
+
+
+}
+
+
+
+.journal-hero p:last-child {
+
+
+margin-top:60px;
+
+
+max-width:460px;
+
+
+font-size:17px;
+
+
+line-height:2;
+
+
+color:#E4D8DE;
+
+
+}
+
+
+
+
+
+
+/* =====================
+ SECTION INDEX
+===================== */
+
+
+.journal-index {
+
+
+font-size:12px;
+
+
+letter-spacing:.2em;
+
+
+color:#E6BD7E;
+
+
+text-transform:uppercase;
+
+
+margin-bottom:50px;
+
+
+}
+
+
+
+
+
+
+/* =====================
+ VISUAL ANALYSIS
+===================== */
+
+
+.analysis {
+
+
+display:grid;
+
+
+grid-template-columns:
+2fr 8fr;
+
+
+padding:160px 0;
+
+
+border-top:1px solid rgba(228,216,222,.2);
+
+
+}
+
+
+
+.analysis-grid {
+
+
+display:grid;
+
+
+grid-template-columns:
+repeat(3,1fr);
+
+
+gap:30px;
+
+
+}
+
+
+
+
+
+.analysis-card {
+background:#D8CBB8;
+padding:24px;
+transition:.4s;
+display:flex;
+
+flex-direction:column;
+
+height:520px;
+
+}
+
+
+
+.analysis-card:hover {
+
+
+transform:translateY(-10px);
+
+
+}
+
+.analysis-card a{
+
+
+display:inline-block;
+
+
+margin-top:30px;
+
+
+font-size:11px;
+
+
+letter-spacing:.15em;
+
+
+color:#3F63BC;
+
+
+transition:.3s;
+
+
+}
+
+
+
+.analysis-card a:hover{
+
+
+color:#E6BD7E;
+
+
+transform:translateX(8px);
+
+
+}
+
+
+
+
+
+.card-image{
+
+
+height:220px;
+
+overflow:hidden;
+
+background:#C7B9A8;
+
+
+}
+
+
+
+.card-image img{
+
+
+width:100%;
+
+height:100%;
+
+
+object-fit:cover;
+
+
+display:block;
+
+
+transition:.6s cubic-bezier(.16,1,.3,1);
+
+filter:
+grayscale(20%)
+contrast(105%);
+
+
+}
+
+
+
+/* 鼠标经过图片轻微放大 */
+
+
+.analysis-card:hover .card-image img{
+
+
+transform:scale(1.05);
+
+
+}
+
+
+
+
+
+
+.card-meta {
+
+
+margin-top:24px;
+
+
+font-size:10px;
+
+
+letter-spacing:.2em;
+
+
+color:#3F63BC;
+
+
+}
+
+
+
+
+.analysis-card h2 {
+
+
+margin-top:20px;
+
+
+font-size:28px;
+
+
+line-height:1;
+
+min-height:90px;
+color:#3F63BC;
+
+
+}
+
+
+
+
+.analysis-card p {
+
+
+margin-top:20px;
+
+
+color:#5B3F32;
+
+
+}
+
+
+
+
+
+.analysis-card a {
+
+
+display:block;
+
+
+margin-top:30px;
+
+
+font-size:11px;
+
+
+letter-spacing:.15em;
+
+
+color:#3F63BC;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+ DIARY
+===================== */
+
+
+.diary {
+
+
+display:grid;
+
+
+grid-template-columns:
+2fr 8fr;
+
+
+padding:160px 0;
+
+
+}
+
+
+
+
+
+.timeline {
+
+
+border-left:
+
+1px solid rgba(228,216,222,.3);
+
+
+padding-left:70px;
+
+
+}
+
+
+
+.timeline article {
+
+
+padding-bottom:90px;
+
+
+position:relative;
+
+
+}
+
+
+
+.timeline article::before {
+
+
+content:"";
+
+
+position:absolute;
+
+
+left:-77px;
+
+
+top:10px;
+
+
+width:12px;
+
+
+height:12px;
+
+
+background:#E6BD7E;
+
+
+border-radius:50%;
+
+
+}
+
+
+
+.timeline span {
+
+
+font-size:11px;
+
+
+letter-spacing:.2em;
+
+
+color:#E6BD7E;
+
+
+}
+
+
+
+
+.timeline h2 {
+
+
+font-size:48px;
+
+
+color:#3F63BC;
+
+
+margin-top:15px;
+
+
+}
+
+
+
+
+.timeline p {
+
+
+color:#E4D8DE;
+
+
+max-width:500px;
+
+
+}
+
+
+
+
+
+
+/* =====================
+ LIBRARY
+===================== */
+
+
+/* =====================
+ READING LIBRARY
+===================== */
+
+
+.reading{
+
+padding:160px 0;
+
+}
+/* =====================
+ READING LIBRARY
+===================== */
+
+
+.reading{
+
+padding:160px 0;
+
+}
+
+
+
+/* =====================
+ READING LIBRARY
+===================== */
+
+
+.reading{
+
+padding:160px 0;
+
+}
+
+
+
+.library{
+
+
+position:relative;
+
+
+height:520px;
+
+
+display:flex;
+
+
+align-items:flex-end;
+
+
+gap:22px;
+
+
+padding-left:40px;
+
+
+padding-bottom:55px;
+
+
+}
+
+
+
+/* 蓝色书架 */
+
+.library::after{
+
+
+content:"";
+position:absolute;
+bottom:35px;
+left:20px;
+width:92%;
+height:12px;
+background:#3F63BC;
+box-shadow:
+0 8px 18px rgba(0,0,0,.25);
+
+
+}
+
+
+
+
+
+
+/* =====================
+ BOOK
+===================== */
+
+/* =====================
+ BOOK ARCHIVE SYSTEM
+===================== */
+
+
+.library{
+
+position:relative;
+
+height:560px;
+
+display:flex;
+
+align-items:flex-end;
+
+justify-content:center;
+
+gap:18px;
+
+padding-bottom:80px;
+
+}
+
+
+/* 蓝色书架 */
+
+.library::after{
+
+content:"";
+
+position:absolute;
+
+bottom:70px;
+
+left:0;
+
+right:0;
+
+height:14px;
+
+background:#3F63BC;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.25);
+
+}
+
+
+
+
+.book{
+
+
+position:relative;
+
+
+width:76px;
+
+height:420px;
+
+
+overflow:hidden;
+
+
+cursor:pointer;
+
+
+background:#EEE5DC;
+
+
+transition:
+
+.6s cubic-bezier(.16,1,.3,1);
+
+
+
+box-shadow:
+
+10px 12px 20px rgba(0,0,0,.18);
+
+overflow:hidden;
+
+
+}
+
+
+
+/* 左侧厚度 */
+
+.book::before{
+
+
+display: none;
+
+
+}
+
+
+
+/* 书脊图片 */
+
+.spine-image{
+
+
+position:absolute;
+
+
+inset:0;
+
+
+background-size:100% 100%;
+
+background-repeat:no-repeat;
+background-position:center;
+opacity:1;
+
+
+z-index:1;
+
+
+
+}
+
+
+
+
+/* 半透明保护层 */
+
+
+.book::after{
+display: none;
+
+
+}
+
+
+
+
+
+
+/* 编号 */
+
+
+.archive-number{
+
+
+position:absolute;
+
+
+top:25px;
+
+
+left:50%;
+
+
+transform:
+
+translateX(-50%);
+
+
+font-size:11px;
+
+
+letter-spacing:.35em;
+
+
+color:#3F63BC;
+
+
+z-index:3;
+
+
+}
+
+
+
+
+/* =====================
+ RANDOM BOOK ANGLE
+===================== */
+
+
+
+.book:nth-child(1){
+
+height:420px;
+
+transform:rotate(-2deg);
+
+}
+
+
+.book:nth-child(2){
+
+height:370px;
+
+transform:rotate(2deg);
+
+}
+
+
+.book:nth-child(3){
+
+height:440px;
+
+transform:rotate(-1deg);
+
+}
+
+
+.book:nth-child(4){
+
+height:390px;
+
+transform:rotate(3deg);
+
+}
+
+
+.book:nth-child(5){
+
+height:420px;
+
+transform:rotate(-2deg);
+
+}
+
+
+.book:nth-child(6){
+
+height:360px;
+
+transform:rotate(2deg);
+
+}
+
+
+.book:nth-child(7){
+
+height:400px;
+
+transform:rotate(-2deg);
+
+}
+
+
+.book:nth-child(8){
+
+height:380px;
+
+transform:rotate(2deg);
+
+}
+
+
+/* 展开状态 */
+
+.book:hover{
+
+width:320px;
+
+height:470px;
+
+transform:
+translateY(-45px)
+rotate(0deg)
+scale(1.03);
+
+z-index:50;
+
+box-shadow:
+30px 40px 60px rgba(0,0,0,.35);
+
+}
+
+
+
+
+/* 内容区域 */
+
+
+.book h2{
+
+
+position:absolute;
+
+
+top:45px;
+
+
+left:35px;
+
+
+width:230px;
+
+
+font-size:38px;
+
+
+line-height:.95;
+
+
+letter-spacing:-.04em;
+
+
+color:#3F63BC;
+
+
+opacity:0;
+
+
+z-index:5;
+
+
+transition:.4s;
+
+
+}
+
+
+
+
+.book p{
+
+
+position:absolute;
+
+
+top:210px;
+
+
+left:35px;
+
+
+width:220px;
+
+
+font-size:14px;
+
+
+line-height:1.8;
+
+
+color:#5B3F32;
+
+
+opacity:0;
+
+
+z-index:5;
+
+
+}
+
+
+
+
+.book a{
+
+
+position:absolute;
+
+
+bottom:45px;
+
+
+left:35px;
+
+
+font-size:12px;
+
+
+letter-spacing:.25em;
+
+
+color:#E6BD7E;
+
+
+opacity:0;
+
+
+z-index:5;
+
+
+}
+
+
+
+
+
+.book:hover h2,
+
+.book:hover p,
+
+.book:hover a{
+
+
+opacity:1;
+
+
+}
+
+
+
+
+/* 展开时覆盖图片 */
+
+.book:hover .spine-image{
+
+
+opacity:.12;
+
+
+}
+
+
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<nav class="nav">
+
+<a class="nav__brand" href="index.html">
+Tintory
+</a>
+
+
+<div class="nav__links">
+
+<a href="graphic.html">
+Graphic
+</a>
+
+<a href="fashion.html">
+Fashion
+</a>
+
+<a href="culture.html">
+Culture
+</a>
+
+<a class="active" href="journal.html">
+Journal
+</a>
+
+<a href="contact.html">
+Contact
+</a>
+
+
+</div>
+
+</nav>
+
+
+
+<main class="journal">
+
+
+<!-- HERO -->
+
+<header class="journal-hero">
+
+
+<p class="eyebrow">
+Journal / Field Notes
+</p>
+
+
+<h1>
+
+Fragments of<br>
+images,<br>
+thoughts<br>
+and references.
+
+</h1>
+
+
+
+<p>
+
+关于图像、创作与观看方式的研究记录。
+<br>
+
+Tintory Studio 的视觉档案与思想笔记。
+
+</p>
+
+
+</header>
+
+
+
+
+
+<!-- =====================
+01 VISUAL ANALYSIS
+===================== -->
+
+
+<section class="analysis reveal">
+
+
+<div class="journal-index">
+
+01 /
+<br>
+Visual Analysis
+
+</div>
+
+
+
+<div class="analysis-grid">
+
+
+
+<article class="analysis-card reveal">
+
+
+<div class="card-image">
+
+<img src="journal/analysis/minimalism.jpg">
+
+</div>
+
+
+
+<div class="card-meta">
+
+VISUAL STUDY
+
+</div>
+
+
+
+<h2>
+
+Why Minimalism
+Feels Powerful
+
+</h2>
+
+
+
+<p>
+
+为什么极简主义拥有
+视觉权力？
+
+</p>
+
+
+
+<a href="articles/minimalism.html">
+
+READ ARTICLE →
+
+</a>
+
+
+</article>
+
+
+
+
+
+<article class="analysis-card reveal">
+
+
+<div class="card-image">
+
+<img src="journal/analysis/typography.jpg">
+
+</div>
+
+
+<div class="card-meta">
+
+TYPOGRAPHY
+
+</div>
+
+
+<h2>
+
+The Architecture
+of Typography
+
+</h2>
+
+
+<p>
+
+字体如何建立空间秩序。
+
+</p>
+
+
+<a href="articles/typography.html">
+
+READ ARTICLE →
+
+</a>
+
+
+</article>
+
+
+
+
+
+
+<article class="analysis-card reveal">
+
+
+<div class="card-image">
+
+<img src="journal/analysis/poster.jpg">
+
+</div>
+
+
+<div class="card-meta">
+
+POSTER STUDY
+
+</div>
+
+
+<h2>
+
+Poster
+as Memory
+
+</h2>
+
+
+<p>
+
+海报如何保存时代记忆。
+
+</p>
+
+
+<a href="articles/poster.html">
+
+READ ARTICLE →
+
+</a>
+
+
+</article>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+02 STUDIO DIARY
+===================== -->
+
+
+<section class="diary reveal">
+
+
+<div class="journal-index">
+
+02 /
+<br>
+Studio Diary
+
+</div>
+
+
+
+<div class="timeline">
+
+
+
+<article>
+
+
+<span>
+
+2026.07
+
+</span>
+
+
+<h2>
+
+Building Tintory Studio
+
+</h2>
+
+
+<p>
+
+为什么开始建立一个
+关于视觉考古的工作室。
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+<article>
+
+
+<span>
+
+2026.06
+
+</span>
+
+
+<h2>
+
+A Walk With My Camera
+
+</h2>
+
+
+<p>
+
+一次摄影散步中的视觉发现。
+
+</p>
+
+
+</article>
+
+
+
+
+
+<article>
+
+
+<span>
+
+2026.05
+
+</span>
+
+
+<h2>
+
+Collecting Fragments
+
+</h2>
+
+
+<p>
+
+如何建立个人视觉档案。
+
+</p>
+
+
+</article>
+
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- =====================
+03 READING
+===================== -->
+<section class="reading reveal">
+
+
+<div class="journal-index">
+
+
+03 /
+<br>
+Reading &
+Reference
+
+
+</div>
+
+
+
+<div class="library">
+
+
+<article class="book">
+<div class="spine-image"
+style="
+background-image:url('journal/reading/spine01.png');
+">
+</div>
+
+<h2>
+
+ON<br>
+PHOTO-<br>
+GRAPHY
+</h2>
+
+
+<p>
+
+QUESTION
+
+<br><br>
+
+How does an image
+construct memory?
+</p>
+
+<a>
+READ →
+</a>
+
+
+</article>
+
+
+
+<article class="book">
+
+    <div class="spine-image"
+style="
+background-image:url('journal/reading/spine02.png');
+">
+</div>
+
+<h2>
+
+WAYS<br>
+OF<br>
+SEEING
+
+</h2>
+
+
+
+<p>
+
+METHOD
+
+<br><br>
+
+How vision is shaped
+by culture.
+
+</p>
+
+<a>
+READ →
+</a>
+
+
+</article>
+
+<article class="book">
+<div class="spine-image"
+style="
+background-image:url('journal/reading/spine03.png');
+">
+</div>
+
+
+<h2>
+ON<br>
+PHOTO-<br>
+GRAPHY
+</h2>
+
+<p>
+How does an image
+construct memory?
+</p>
+
+<a>
+READ →
+</a>
+
+
+</article>
+
+<article class="book">
+<div class="spine-image"
+style="
+background-image:url('journal/reading/spine04.png');
+">
+</div>
+
+<h2>
+WAYS<br>
+OF<br>
+SEEING
+</h2>
+
+
+<p>
+
+How vision is shaped
+by culture.
+
+</p>
+
+
+<a>
+READ →
+</a>
+
+
+</article>
+
+
+<article class="book">
+
+<div class="spine-image"
+style="
+background-image:url('journal/reading/spine05.png');
+">
+</div>
+
+<h2>
+CAMERA<br>
+LUCIDA
+</h2>
+
+
+<p>
+
+Why images
+remain.
+
+</p>
+
+
+<a>
+READ →
+</a>
+
+
+
+</article>
+
+
+<article class="book">
+
+<div class="spine-image"
+style="
+background-image:url('journal/reading/spine06.png');
+">
+</div>
+
+
+
+<h2>
+THE<br>
+IMAGE
+</h2>
+
+<p>
+Reality and
+representation.
+</p>
+
+<a>
+READ →
+</a>
+
+
+</article>
+</div>
+
+
+
+</section>
+
+<footer class="footer">
+
+
+
+<div>
+
+TINTORY STUDIO
+
+</div>
+
+<div>
+
+VISUAL ARCHAEOLOGY
+
+</div>
+
+<div>
+
+ESTABLISHED 2026
+
+</div>
+
+
+
+</footer>
+
+
+
+</main>
+
+
+<script>
+
+
+const reveals = document.querySelectorAll(".reveal");
+
+
+const observer = new IntersectionObserver(
+(entries)=>{
+
+
+entries.forEach(entry=>{
+
+
+if(entry.isIntersecting){
+
+
+entry.target.classList.add("is-visible");
+
+
+}
+
+
+});
+
+
+},
+
+{
+
+threshold:0.15
+
+}
+
+);
+
+
+
+reveals.forEach(
+(el)=>observer.observe(el)
+);
+
+
+
+</script>
+
+</body>
+
+</html>

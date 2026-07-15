@@ -1,0 +1,2303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="icon" type="image/png" href="tintory-logo2.png">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Tintory Studio Culture — 民族美学、文化胜地与文化故事。"
+  >
+
+  <title>Tintory Studio — Culture</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    /* =========================================================
+       01. GLOBAL VARIABLES
+    ========================================================= */
+
+    :root {
+      --bg: #5B3F32;
+      --title: #3F63BC;
+      --intro: #E4D8DE;
+      --accent: #E6BD7E;
+
+      --line: rgba(228, 216, 222, 0.24);
+      --line-strong: rgba(230, 189, 126, 0.42);
+      --nav-bg: rgba(91, 63, 50, 0.94);
+      --panel: rgba(228, 216, 222, 0.045);
+      --shadow: rgba(20, 10, 6, 0.18);
+
+      --max-width: 1440px;
+      --page-margin: clamp(24px, 5vw, 72px);
+      --nav-height: 68px;
+
+      --font-main:
+        Futura,
+        "Futura PT",
+        "Avenir Next",
+        Inter,
+        "Helvetica Neue",
+        "Noto Sans SC",
+        Arial,
+        sans-serif;
+    }
+
+
+    /* =========================================================
+       02. RESET
+    ========================================================= */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      min-width: 320px;
+      overflow-x: hidden;
+
+      background: var(--bg);
+      color: var(--intro);
+
+      font-family: var(--font-main);
+      font-weight: 700;
+      line-height: 1.8;
+
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::after {
+      content: "";
+
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+
+      pointer-events: none;
+
+      opacity: 0.035;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.35'/%3E%3C/svg%3E");
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      color: inherit;
+      font: inherit;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+
+    /* =========================================================
+       03. ACCESSIBILITY
+    ========================================================= */
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+
+      padding: 10px 16px;
+
+      background: var(--accent);
+      color: var(--bg);
+
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+
+      transform: translateY(-150%);
+      transition: transform 0.25s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+    }
+
+
+    /* =========================================================
+       04. NAVIGATION
+    ========================================================= */
+
+    .nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 100;
+
+      height: var(--nav-height);
+      padding: 0 var(--page-margin);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--line);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .nav__brand {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+
+      color: var(--title);
+
+      transition: color 0.3s ease;
+    }
+
+    .nav__brand:hover {
+      color: var(--accent);
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.4vw, 34px);
+    }
+
+    .nav__links a {
+      position: relative;
+
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      color: var(--intro);
+
+      transition: color 0.3s ease;
+    }
+
+    .nav__links a:hover,
+    .nav__links a.is-current {
+      color: var(--accent);
+    }
+
+    .nav__links a.is-current::after {
+      content: "";
+
+      position: absolute;
+      right: 0;
+      bottom: -9px;
+      left: 0;
+
+      height: 2px;
+
+      background: var(--accent);
+    }
+
+
+    /* =========================================================
+       05. SHARED LAYOUT
+    ========================================================= */
+
+    .page {
+      width: 100%;
+      max-width: var(--max-width);
+
+      margin: 0 auto;
+      padding: 0 var(--page-margin);
+    }
+
+    .eyebrow {
+      margin-bottom: 32px;
+
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .display {
+      font-size: clamp(58px, 8vw, 126px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+
+      color: var(--title);
+    }
+
+    .display-small {
+      font-size: clamp(34px, 4.4vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+
+      color: var(--title);
+    }
+
+    .section {
+      padding: 140px 0;
+
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section__index {
+      grid-column: 1 / 3;
+
+      padding-top: 8px;
+
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .section__content {
+      grid-column: 4 / 13;
+    }
+
+    .section__intro {
+      margin-bottom: 72px;
+
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: clamp(36px, 6vw, 90px);
+      align-items: end;
+    }
+
+    .section__desc {
+      max-width: 520px;
+
+      font-size: 15px;
+      line-height: 2;
+
+      color: var(--intro);
+    }
+
+
+    /* =========================================================
+       06. HERO
+    ========================================================= */
+
+    .hero {
+      min-height: 100vh;
+      padding-top: var(--nav-height);
+
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+      align-items: center;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero__main {
+      grid-column: 1 / 8;
+      padding-top: 48px;
+    }
+
+    .hero__sub {
+      max-width: 590px;
+      margin-top: 40px;
+
+      font-size: 16px;
+      line-height: 2;
+
+      color: var(--intro);
+    }
+
+    .hero__filters {
+      grid-column: 9 / 13;
+
+      padding-top: calc(var(--nav-height) + 88px);
+      padding-bottom: 112px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hero__filters a {
+      display: block;
+      width: fit-content;
+
+      color: var(--intro);
+
+      transition:
+        color 0.35s ease,
+        transform 0.35s ease;
+    }
+
+    .hero__filters a:hover,
+    .hero__filters a:focus-visible {
+      color: var(--accent);
+      transform: translateX(8px);
+    }
+
+    .hero__filters span {
+      display: block;
+
+      font-size: clamp(22px, 2vw, 32px);
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero__filters em {
+      display: block;
+
+      margin-top: 10px;
+
+      font-style: normal;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+
+      white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       07. ETHNIC AESTHETICS
+    ========================================================= */
+
+    .aesthetic-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .culture-card {
+      grid-column: span 4;
+
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .culture-card:nth-child(2) {
+      margin-top: 88px;
+    }
+
+    .culture-card__image {
+      position: relative;
+
+      aspect-ratio: 4 / 5;
+
+      overflow: hidden;
+
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .culture-card__image img {
+      height: 100%;
+      object-fit: cover;
+
+      filter: saturate(0.76) contrast(1.03);
+
+      transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+    }
+
+    .culture-card:hover .culture-card__image img {
+      transform: scale(1.035);
+      filter: saturate(1) contrast(1.03);
+    }
+
+    .culture-card__meta {
+      margin-top: 22px;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .culture-card__title {
+      margin-top: 10px;
+
+      font-size: clamp(26px, 2.5vw, 42px);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+
+      color: var(--title);
+
+      transition: color 0.3s ease;
+    }
+
+    .culture-card:hover .culture-card__title {
+      color: var(--accent);
+    }
+
+    .culture-card__story {
+      margin-top: 18px;
+
+      font-size: 14px;
+      line-height: 1.95;
+
+      color: var(--intro);
+    }
+
+
+    /* =========================================================
+       08. IMAGE PLACEHOLDER
+    ========================================================= */
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+
+      display: grid;
+      place-items: center;
+
+      padding: 24px;
+
+      border: 1px solid var(--line);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(63, 99, 188, 0.22),
+          rgba(230, 189, 126, 0.12)
+        ),
+        var(--panel);
+
+      color: var(--accent);
+
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+
+    /* =========================================================
+       09. SECTION MORE BUTTON
+    ========================================================= */
+
+    .section-more {
+      margin-top: 64px;
+
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .section-more__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+
+      padding-bottom: 8px;
+
+      border-bottom: 1px solid var(--line);
+
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      color: var(--intro);
+
+      transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .section-more__arrow {
+      font-size: 19px;
+      line-height: 1;
+
+      transition: transform 0.3s ease;
+    }
+
+    .section-more__link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+
+      transform: translateX(4px);
+    }
+
+    .section-more__link:hover .section-more__arrow {
+      transform: translateX(7px);
+    }
+
+
+    /* =========================================================
+       10. CULTURAL PLACES — ARCHIVE DRAWER
+    ========================================================= */
+
+    .places-layout {
+      position: relative;
+    }
+
+    .archive-drawer {
+      position: relative;
+
+      padding: 38px 34px 34px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--line);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(230, 189, 126, 0.08),
+          transparent 28%
+        ),
+        var(--panel);
+
+      box-shadow:
+        inset 0 -18px 38px rgba(0, 0, 0, 0.08);
+    }
+
+    .archive-drawer::before {
+      content: "CULTURAL PLACES / FIELD ARCHIVE";
+
+      position: absolute;
+      top: 0;
+      left: 34px;
+
+      padding: 7px 18px 8px;
+
+      background: var(--accent);
+      color: var(--bg);
+
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .archive-drawer__head {
+      margin: 26px 0 30px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+    }
+
+    .archive-drawer__title {
+      max-width: 660px;
+
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+
+      color: var(--title);
+    }
+
+    .drawer-controls {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .drawer-control {
+      width: 48px;
+      height: 48px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--line);
+      background: transparent;
+
+      font-size: 18px;
+      line-height: 1;
+
+      color: var(--intro);
+
+      cursor: pointer;
+
+      transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .drawer-control:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+
+      transform: translateY(-3px);
+    }
+
+    .archive-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(300px, 38%);
+      gap: 22px;
+
+      padding: 22px 5px 34px;
+
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+    }
+
+    .archive-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .archive-track.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    .archive-track.is-dragging a {
+      pointer-events: none;
+    }
+
+    .place-file {
+      position: relative;
+
+      min-height: 500px;
+      padding: 18px 18px 28px;
+
+      scroll-snap-align: start;
+
+      background: #6A493A;
+      border: 1px solid rgba(230, 189, 126, 0.36);
+
+      box-shadow:
+        10px 14px 0 rgba(0, 0, 0, 0.08);
+
+      transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+    }
+
+    .place-file:nth-child(odd) {
+      transform: rotate(-0.7deg);
+    }
+
+    .place-file:nth-child(even) {
+      transform: rotate(1deg) translateY(10px);
+    }
+
+    .place-file:hover {
+      transform: rotate(0deg) translateY(-8px);
+
+      box-shadow:
+        14px 20px 0 rgba(0, 0, 0, 0.11);
+    }
+
+    .place-file::before {
+      content: attr(data-file);
+
+      position: absolute;
+      top: -14px;
+      left: 18px;
+      z-index: 2;
+
+      padding: 7px 14px;
+
+      background: var(--title);
+      color: var(--intro);
+
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .place-file__image {
+      position: relative;
+
+      aspect-ratio: 4 / 3;
+
+      overflow: hidden;
+
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .place-file__image img {
+      height: 100%;
+      object-fit: cover;
+
+      pointer-events: none;
+
+      filter: saturate(0.76) contrast(1.03);
+
+      transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+    }
+
+    .place-file:hover .place-file__image img {
+      transform: scale(1.04);
+      filter: saturate(1);
+    }
+
+    .place-file__meta {
+      margin-top: 22px;
+
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .place-file__title {
+      margin-top: 10px;
+
+      font-size: clamp(27px, 2.7vw, 42px);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+
+      color: var(--title);
+
+      transition: color 0.3s ease;
+    }
+
+    .place-file:hover .place-file__title {
+      color: var(--accent);
+    }
+
+    .place-file__desc {
+      margin-top: 17px;
+
+      font-size: 13px;
+      line-height: 1.9;
+
+      color: var(--intro);
+    }
+
+    .archive-drawer__hint {
+      padding-top: 18px;
+
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+
+      border-top: 1px solid var(--line);
+
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+
+    /* =========================================================
+       11. CULTURAL STORIES
+    ========================================================= */
+
+    .story-feature {
+      padding-bottom: 76px;
+
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(48px, 7vw, 96px);
+      align-items: center;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .story-feature__image {
+      position: relative;
+
+      aspect-ratio: 4 / 5;
+
+      overflow: hidden;
+
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .story-feature__image img {
+      height: 100%;
+      object-fit: cover;
+
+      filter: saturate(0.76) contrast(1.03);
+
+      transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+    }
+
+    .story-feature:hover .story-feature__image img {
+      transform: scale(1.035);
+      filter: saturate(1);
+    }
+
+    .story-feature__meta {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .story-feature__title {
+      margin-top: 18px;
+
+      font-size: clamp(42px, 5vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+
+      color: var(--title);
+    }
+
+    .story-feature__lead {
+      max-width: 520px;
+      margin-top: 28px;
+
+      font-size: 15px;
+      line-height: 2.05;
+
+      color: var(--intro);
+    }
+
+    .story-feature__link {
+      display: inline-block;
+
+      margin-top: 32px;
+
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .story-feature__link:hover {
+      color: var(--intro);
+      transform: translateX(8px);
+    }
+
+    .story-list {
+      margin-top: 64px;
+    }
+
+    .story-item {
+      padding: 34px 0;
+
+      display: grid;
+      grid-template-columns: 100px 1.2fr 1fr 90px;
+      gap: 28px;
+      align-items: start;
+
+      border-top: 1px solid var(--line);
+    }
+
+    .story-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .story-item__num,
+    .story-item__type {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      color: var(--accent);
+    }
+
+    .story-item__title {
+      font-size: clamp(27px, 2.8vw, 46px);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+
+      color: var(--title);
+
+      transition: color 0.3s ease;
+    }
+
+    .story-item__desc {
+      font-size: 14px;
+      line-height: 1.95;
+
+      color: var(--intro);
+    }
+
+    .story-item__arrow {
+      text-align: right;
+      font-size: 18px;
+
+      color: var(--intro);
+
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .story-item:hover .story-item__title {
+      color: var(--accent);
+    }
+
+    .story-item:hover .story-item__arrow {
+      color: var(--accent);
+      transform: translateX(8px);
+    }
+
+
+    /* =========================================================
+       12. FOOTER
+    ========================================================= */
+
+    .closing {
+      padding: 140px 0 72px;
+
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+    }
+
+    .closing__main {
+      grid-column: 1 / 13;
+
+      margin-bottom: 96px;
+    }
+
+    .back-top {
+      font-size: clamp(38px, 5vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+
+      color: var(--title);
+
+      transition: color 0.3s ease;
+    }
+
+    .back-top:hover {
+      color: var(--accent);
+    }
+
+    .footer {
+      grid-column: 1 / 13;
+
+      padding-top: 72px;
+
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+
+      border-top: 1px solid var(--line);
+
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+
+      color: var(--intro);
+    }
+
+
+    /* =========================================================
+       13. REVEAL ANIMATION
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+
+      transition:
+        opacity 0.85s ease,
+        transform 0.85s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* =========================================================
+       14. RESPONSIVE — TABLET
+    ========================================================= */
+
+    @media (max-width: 980px) {
+      .hero__main,
+      .hero__filters,
+      .section__index,
+      .section__content {
+        grid-column: 1 / -1;
+      }
+
+      .hero {
+        align-content: center;
+        padding-bottom: 72px;
+      }
+
+      .hero__filters {
+        margin-top: 64px;
+        padding: 0;
+      }
+
+      .section__index {
+        margin-bottom: 48px;
+      }
+
+      .section__intro {
+        grid-template-columns: 1fr;
+      }
+
+      .aesthetic-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .culture-card {
+        grid-column: auto;
+      }
+
+      .culture-card:nth-child(2) {
+        margin-top: 0;
+      }
+
+      .culture-card:last-child {
+        grid-column: 1 / -1;
+        max-width: 50%;
+      }
+
+      .archive-track {
+        grid-auto-columns: minmax(300px, 64%);
+      }
+
+      .story-feature {
+        grid-template-columns: 1fr;
+      }
+
+      .story-feature__image {
+        max-width: 650px;
+      }
+
+      .story-item {
+        grid-template-columns: 70px 1fr;
+      }
+
+      .story-item__desc {
+        grid-column: 2;
+      }
+
+      .story-item__arrow {
+        grid-column: 2;
+        text-align: left;
+      }
+    }
+
+
+    /* =========================================================
+       15. RESPONSIVE — MOBILE
+    ========================================================= */
+
+    @media (max-width: 680px) {
+      :root {
+        --nav-height: 98px;
+      }
+
+      .nav {
+        min-height: var(--nav-height);
+        height: auto;
+
+        padding-top: 18px;
+        padding-bottom: 15px;
+
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .nav__brand {
+        padding-top: 2px;
+      }
+
+      .nav__links {
+        max-width: 260px;
+
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 9px 15px;
+      }
+
+      .nav__links a {
+        font-size: 9px;
+      }
+
+      .nav__links a.is-current::after {
+        bottom: -4px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: calc(var(--nav-height) + 100px);
+        padding-bottom: 100px;
+      }
+
+      .hero__main {
+        padding-top: 0;
+      }
+
+      .display {
+        font-size: clamp(52px, 17vw, 78px);
+      }
+
+      .hero__sub {
+        font-size: 15px;
+      }
+
+      .hero__filters {
+        gap: 32px;
+      }
+
+      .hero__filters span {
+        font-size: 22px;
+      }
+
+      .section {
+        padding: 104px 0;
+      }
+
+      .section__intro {
+        margin-bottom: 56px;
+      }
+
+      .aesthetic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .culture-card:last-child {
+        grid-column: auto;
+        max-width: none;
+      }
+
+      .archive-drawer {
+        padding: 34px 18px 24px;
+      }
+
+      .archive-drawer::before {
+        left: 18px;
+      }
+
+      .archive-drawer__head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .archive-track {
+        grid-auto-columns: 88%;
+      }
+
+      .place-file {
+        min-height: 470px;
+      }
+
+      .archive-drawer__hint {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .story-item {
+        grid-template-columns: 48px 1fr;
+        gap: 18px;
+      }
+
+      .story-item__desc,
+      .story-item__arrow {
+        grid-column: 2;
+      }
+
+      .section-more {
+        justify-content: flex-start;
+      }
+
+      .closing {
+        padding: 104px 0 48px;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+
+    /* =========================================================
+       16. REDUCED MOTION
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+
+<body id="top">
+  <a class="skip-link" href="#main-content">
+    Skip to content
+  </a>
+
+
+  <!-- =======================================================
+       NAVIGATION
+  ======================================================== -->
+
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="nav__brand" href="index.html">
+      Tintory
+    </a>
+
+    <div class="nav__links">
+      <a href="graphic.html">Graphic</a>
+      <a href="fashion.html">Fashion</a>
+
+      <a
+        href="culture.html"
+        class="is-current"
+        aria-current="page"
+      >
+        Culture
+      </a>
+
+      <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+
+  <main class="page" id="main-content">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <header class="hero">
+      <div class="hero__main">
+        <p class="eyebrow">
+          Culture
+        </p>
+
+        <h1 class="display">
+          Memory as<br>
+          Living Form
+        </h1>
+
+        <p class="hero__sub">
+          我们追踪图案、器物、仪式与地方如何保存共同记忆，
+          也观察传统如何穿过时间，在今天重新成为一种可被看见、
+          触摸与讲述的生活形式。
+        </p>
+      </div>
+
+      <div
+        class="hero__filters"
+        aria-label="Culture sections"
+      >
+        <a href="#aesthetics">
+          <span>Aesthetics</span>
+          <em>民族美学</em>
+        </a>
+
+        <a href="#places">
+          <span>Places</span>
+          <em>文化胜地</em>
+        </a>
+
+        <a href="#stories">
+          <span>Stories</span>
+          <em>文化故事</em>
+        </a>
+      </div>
+    </header>
+
+
+    <!-- =====================================================
+         SECTION 01 — ETHNIC AESTHETICS
+    ====================================================== -->
+
+    <section class="section" id="aesthetics">
+      <aside class="section__index reveal">
+        Ⅰ / Ethnic Aesthetics
+      </aside>
+
+      <div class="section__content">
+
+        <div class="section__intro reveal">
+          <div>
+            <p class="eyebrow">
+              Regional Visual Language
+            </p>
+
+            <h2 class="display-small">
+              Patterns carry memory before words do.
+            </h2>
+          </div>
+
+          <p class="section__desc">
+            按地域与民族进入视觉传统：服饰、建筑、纹样、
+            材料与色彩并非装饰性的表面，而是一个群体理解自然、
+            身份与时间的方式。
+          </p>
+        </div>
+
+
+        <div class="aesthetic-grid">
+
+          <!-- Card 01 -->
+
+          <article class="culture-card reveal">
+            <a href="culture-miao-silver.html">
+              <div class="culture-card__image">
+                <img
+                  src="culture/aethetics/miao.jpg"
+                  alt="苗族银饰与传统服饰"
+                  loading="lazy"
+                  onerror="
+                    this.hidden = true;
+                    this.nextElementSibling.hidden = false;
+                  "
+                >
+
+                <div class="image-placeholder" hidden>
+                  Replace with<br>
+                  images/culture/miao-silver.jpg
+                </div>
+              </div>
+
+              <p class="culture-card__meta">
+                Southwest China / Miao
+              </p>
+
+              <h3 class="culture-card__title">
+                Silver as Ancestral Light
+              </h3>
+
+              <p class="culture-card__story">
+                银饰不仅被佩戴在身体之上，也记录家族、
+                迁徙与祝福。行走时发出的声响，使衣饰成为一种
+                能够被听见的身份记忆。
+              </p>
+            </a>
+          </article>
+
+
+          <!-- Card 02 -->
+
+          <article class="culture-card reveal">
+            <a href="culture-tibetan-colour.html">
+              <div class="culture-card__image">
+                <img
+                  src="culture/aethetics/tibetan-color.jpg"
+                  alt="藏族建筑、织物与传统色彩"
+                  loading="lazy"
+                  onerror="
+                    this.hidden = true;
+                    this.nextElementSibling.hidden = false;
+                  "
+                >
+
+                <div class="image-placeholder" hidden>
+                  Replace with<br>
+                  images/culture/tibetan-color.jpg
+                </div>
+              </div>
+
+              <p class="culture-card__meta">
+                Tibetan Plateau / Tibetan
+              </p>
+
+              <h3 class="culture-card__title">
+                Colour at the Edge of the Sky
+              </h3>
+
+              <p class="culture-card__story">
+                红、白、蓝、黄并不是孤立的色彩选择。
+                它们与天空、土地、信仰和建筑共同构成高原生活的
+                视觉秩序。
+              </p>
+            </a>
+          </article>
+
+
+          <!-- Card 03 -->
+
+          <article class="culture-card reveal">
+            <a href="culture-dong-wood.html">
+              <div class="culture-card__image">
+                <img
+                  src="culture/aethetics/dong-wood.jpg"
+                  alt="侗族木构建筑与鼓楼"
+                  loading="lazy"
+                  onerror="
+                    this.hidden = true;
+                    this.nextElementSibling.hidden = false;
+                  "
+                >
+
+                <div class="image-placeholder" hidden>
+                  Replace with<br>
+                  images/culture/dong-wood.jpg
+                </div>
+              </div>
+
+              <p class="culture-card__meta">
+                Guizhou / Dong
+              </p>
+
+              <h3 class="culture-card__title">
+                Architecture Without a Nail
+              </h3>
+
+              <p class="culture-card__story">
+                榫卯将木材连接成鼓楼、风雨桥与居所。
+                建筑的稳定来自部件之间彼此承托的关系，
+                如同村落本身的共同体结构。
+              </p>
+            </a>
+          </article>
+        </div>
+
+
+        <!-- More button -->
+
+        <div class="section-more reveal">
+          <a
+            class="section-more__link"
+            href="culture-aesthetics.html"
+          >
+            <span>More Ethnic Aesthetics</span>
+            <span class="section-more__arrow">→</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         SECTION 02 — CULTURAL PLACES
+    ====================================================== -->
+
+    <section class="section" id="places">
+      <aside class="section__index reveal">
+        Ⅱ / Cultural Places
+      </aside>
+
+      <div class="section__content">
+
+        <div class="section__intro reveal">
+          <div>
+            <p class="eyebrow">
+              Photography Atlas
+            </p>
+
+            <h2 class="display-small">
+              Places are stories arranged in space.
+            </h2>
+          </div>
+
+          <p class="section__desc">
+            以摄影与文字记录文化发生的现场。
+            村落、古城、寺院、市场和遗址不只是风景，
+            也保存着人的路径、劳动与日常秩序。
+          </p>
+        </div>
+
+
+        <div class="places-layout reveal">
+          <div class="archive-drawer">
+
+            <div class="archive-drawer__head">
+              <h3 class="archive-drawer__title">
+                Pull out a place.<br>
+                Open its memory.
+              </h3>
+
+              <div
+                class="drawer-controls"
+                aria-label="Cultural places carousel controls"
+              >
+                <button
+                  class="drawer-control"
+                  type="button"
+                  data-drawer-prev
+                  aria-label="Previous cultural place"
+                >
+                  ←
+                </button>
+
+                <button
+                  class="drawer-control"
+                  type="button"
+                  data-drawer-next
+                  aria-label="Next cultural place"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+
+            <!-- 可抽拉档案卡片 -->
+
+            <div
+              class="archive-track"
+              data-archive-track
+              tabindex="0"
+              aria-label="Cultural places archive"
+            >
+
+              <!-- Place 01 -->
+
+              <article
+                class="place-file"
+                data-file="File 01 / Gansu"
+              >
+                <a href="place-dunhuang.html">
+                  <div class="place-file__image">
+                    <img
+                      src="culture/places/dunhuang.jpg"
+                      alt="敦煌莫高窟与戈壁景观"
+                      loading="lazy"
+                      draggable="false"
+                      onerror="
+                        this.hidden = true;
+                        this.nextElementSibling.hidden = false;
+                      "
+                    >
+
+                    <div class="image-placeholder" hidden>
+                      Replace with<br>
+                      images/culture/dunhuang.jpg
+                    </div>
+                  </div>
+
+                  <p class="place-file__meta">
+                    Gansu / Dunhuang
+                  </p>
+
+                  <h3 class="place-file__title">
+                    Dunhuang: Images on the Silk Road
+                  </h3>
+
+                  <p class="place-file__desc">
+                    洞窟壁画在沙漠边缘保存了跨文明流动的痕迹。
+                    颜料、衣纹与神祇形象，共同构成一部被绘制在
+                    岩壁上的交流史。
+                  </p>
+                </a>
+              </article>
+
+
+              <!-- Place 02 -->
+
+              <article
+                class="place-file"
+                data-file="File 02 / Fujian"
+              >
+                <a href="place-quanzhou.html">
+                  <div class="place-file__image">
+                    <img
+                      src="culture/places/quanzhou.jpg"
+                      alt="泉州古城与传统街巷"
+                      loading="lazy"
+                      draggable="false"
+                      onerror="
+                        this.hidden = true;
+                        this.nextElementSibling.hidden = false;
+                      "
+                    >
+
+                    <div class="image-placeholder" hidden>
+                      Replace with<br>
+                      images/culture/quanzhou.jpg
+                    </div>
+                  </div>
+
+                  <p class="place-file__meta">
+                    Fujian / Quanzhou
+                  </p>
+
+                  <h3 class="place-file__title">
+                    Quanzhou: A Port of Many Gods
+                  </h3>
+
+                  <p class="place-file__desc">
+                    寺庙、宗祠、清真寺与街市在同一座港口城市中
+                    并存。海上贸易留下的不只有货物，还有信仰与
+                    生活方式的层叠。
+                  </p>
+                </a>
+              </article>
+
+
+              <!-- Place 03 -->
+
+              <article
+                class="place-file"
+                data-file="File 03 / Xinjiang"
+              >
+                <a href="place-kashgar.html">
+                  <div class="place-file__image">
+                    <img
+                      src="culture/places/kashgar.jpg"
+                      alt="喀什老城街道与手工艺店铺"
+                      loading="lazy"
+                      draggable="false"
+                      onerror="
+                        this.hidden = true;
+                        this.nextElementSibling.hidden = false;
+                      "
+                    >
+
+                    <div class="image-placeholder" hidden>
+                      Replace with<br>
+                      images/culture/kashgar.jpg
+                    </div>
+                  </div>
+
+                  <p class="place-file__meta">
+                    Xinjiang / Kashgar
+                  </p>
+
+                  <h3 class="place-file__title">
+                    Kashgar: Courtyards of Trade and Memory
+                  </h3>
+
+                  <p class="place-file__desc">
+                    门窗、庭院、铜器与集市共同组织老城的节奏。
+                    这里的空间不是静态遗产，而是仍被使用、协商
+                    与更新的生活容器。
+                  </p>
+                </a>
+              </article>
+
+
+              <!-- Place 04 -->
+
+              <article
+                class="place-file"
+                data-file="File 04 / Anhui"
+              >
+                <a href="place-hongcun.html">
+                  <div class="place-file__image">
+                    <img
+                      src="culture/places/hongcun.jpg"
+                      alt="宏村徽派建筑与水系"
+                      loading="lazy"
+                      draggable="false"
+                      onerror="
+                        this.hidden = true;
+                        this.nextElementSibling.hidden = false;
+                      "
+                    >
+
+                    <div class="image-placeholder" hidden>
+                      Replace with<br>
+                      images/culture/hongcun.jpg
+                    </div>
+                  </div>
+
+                  <p class="place-file__meta">
+                    Anhui / Hongcun
+                  </p>
+
+                  <h3 class="place-file__title">
+                    Hongcun: Water as Invisible Architecture
+                  </h3>
+
+                  <p class="place-file__desc">
+                    水系穿过白墙黑瓦之间，将生活、消防、风水与
+                    景观连接起来。村落像一台缓慢运转的身体，
+                    水是其中不可见的脉络。
+                  </p>
+                </a>
+              </article>
+
+
+              <!-- Place 05 -->
+
+              <article
+                class="place-file"
+                data-file="File 05 / Yunnan"
+              >
+                <a href="place-shaxi.html">
+                  <div class="place-file__image">
+                    <img
+                      src="culture/places/shaxi.jpg"
+                      alt="云南沙溪古镇与古戏台"
+                      loading="lazy"
+                      draggable="false"
+                      onerror="
+                        this.hidden = true;
+                        this.nextElementSibling.hidden = false;
+                      "
+                    >
+
+                    <div class="image-placeholder" hidden>
+                      Replace with<br>
+                      images/culture/shaxi.jpg
+                    </div>
+                  </div>
+
+                  <p class="place-file__meta">
+                    Yunnan / Shaxi
+                  </p>
+
+                  <h3 class="place-file__title">
+                    Shaxi: A Market Between Mountains
+                  </h3>
+
+                  <p class="place-file__desc">
+                    茶马古道上的集市将马帮、寺庙、戏台与村落
+                    连接起来。空间保留了交换发生的痕迹，也保存着
+                    人们相遇和停留的方式。
+                  </p>
+                </a>
+              </article>
+            </div>
+
+
+            <div class="archive-drawer__hint">
+              <span>Drag / Swipe / Arrow Keys</span>
+              <span>01 — 05</span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- More button -->
+
+        <div class="section-more reveal">
+          <a
+            class="section-more__link"
+            href="culture-places.html"
+          >
+            <span>More Cultural Places</span>
+            <span class="section-more__arrow">→</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         SECTION 03 — CULTURAL STORIES
+    ====================================================== -->
+
+    <section class="section" id="stories">
+      <aside class="section__index reveal">
+        Ⅲ / Cultural Stories
+      </aside>
+
+      <div class="section__content">
+
+        <div class="section__intro reveal">
+          <div>
+            <p class="eyebrow">
+              Long-form Narratives
+            </p>
+
+            <h2 class="display-small">
+              A tradition survives each time it is retold.
+            </h2>
+          </div>
+
+          <p class="section__desc">
+            通过长篇叙事进入神话、民俗与工艺传承。
+            这里关注的不只是“过去发生了什么”，
+            更是故事如何在口述、手艺与仪式中继续改变今天。
+          </p>
+        </div>
+
+
+        <!-- Featured Story -->
+
+        <article class="story-feature reveal">
+          <div class="story-feature__image">
+            <img
+              src="culture/featured/featured-indigo.jpg"
+              alt="传统蓝染布料与手工染缸"
+              loading="lazy"
+              onerror="
+                this.hidden = true;
+                this.nextElementSibling.hidden = false;
+              "
+            >
+
+            <div class="image-placeholder" hidden>
+              Replace with<br>
+              images/culture/featured-indigo.jpg
+            </div>
+          </div>
+
+          <div>
+            <p class="story-feature__meta">
+              Featured Story / Craft Heritage
+            </p>
+
+            <h3 class="story-feature__title">
+              The Blue That Remembers Hands
+            </h3>
+
+            <p class="story-feature__lead">
+              一块蓝染布从植物、泥土与水中诞生，也在反复浸染、
+              氧化与晾晒之间积累时间。颜色并不是被一次性覆盖
+              上去，而是在手的劳动中逐渐显现。
+            </p>
+
+            <a
+              class="story-feature__link"
+              href="story-indigo.html"
+            >
+              Read Story →
+            </a>
+          </div>
+        </article>
+
+
+        <!-- Story Archive Preview -->
+
+        <div class="story-list">
+
+          <a
+            class="story-item reveal"
+            href="story-nuwa.html"
+          >
+            <span class="story-item__num">
+              01
+            </span>
+
+            <h3 class="story-item__title">
+              Nüwa and the Shape of Repair
+            </h3>
+
+            <p class="story-item__desc">
+              从女娲补天的神话出发，理解“修补”如何成为
+              面对灾难、秩序与重生的一种文化想象。
+            </p>
+
+            <span class="story-item__arrow">
+              →
+            </span>
+          </a>
+
+
+          <a
+            class="story-item reveal"
+            href="story-fire-festival.html"
+          >
+            <span class="story-item__num">
+              02
+            </span>
+
+            <h3 class="story-item__title">
+              A Night Built by Fire
+            </h3>
+
+            <p class="story-item__desc">
+              火把节中的火焰既照亮公共空间，也短暂重组
+              人与人之间的关系，让节日成为共同体的现场。
+            </p>
+
+            <span class="story-item__arrow">
+              →
+            </span>
+          </a>
+
+
+          <a
+            class="story-item reveal"
+            href="story-bamboo-weaving.html"
+          >
+            <span class="story-item__num">
+              03
+            </span>
+
+            <h3 class="story-item__title">
+              Bamboo, Repetition and Patience
+            </h3>
+
+            <p class="story-item__desc">
+              竹编的形式来自材料本身的弹性与限制。
+              每一次交错都微不足道，却在重复中生长出稳定
+              而复杂的结构。
+            </p>
+
+            <span class="story-item__arrow">
+              →
+            </span>
+          </a>
+
+
+          <a
+            class="story-item reveal"
+            href="story-shadow-puppetry.html"
+          >
+            <span class="story-item__num">
+              04
+            </span>
+
+            <h3 class="story-item__title">
+              Figures Made of Light and Skin
+            </h3>
+
+            <p class="story-item__desc">
+              皮影戏借助一层幕布，将雕刻、音乐、口述与光线
+              组合成流动的戏剧，也让古老故事持续获得新的身体。
+            </p>
+
+            <span class="story-item__arrow">
+              →
+            </span>
+          </a>
+        </div>
+
+
+        <!-- More button -->
+
+        <div class="section-more reveal">
+          <a
+            class="section-more__link"
+            href="culture-stories.html"
+          >
+            <span>More Cultural Stories</span>
+            <span class="section-more__arrow">→</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+         CLOSING
+    ====================================================== -->
+
+    <section class="closing" id="page-bottom">
+      <div class="closing__main">
+        <a class="back-top" href="#top">
+          Back To Top
+        </a>
+      </div>
+
+      <footer class="footer">
+        <span>Tintory Studio</span>
+        <span>Visual Archaeology</span>
+        <span>Established 2026</span>
+      </footer>
+    </section>
+
+  </main>
+
+
+  <script>
+    /* =======================================================
+       01. SCROLL REVEAL
+    ======================================================== */
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -30px 0px"
+        }
+      );
+
+      revealElements.forEach(element => {
+        revealObserver.observe(element);
+      });
+    } else {
+      revealElements.forEach(element => {
+        element.classList.add("is-visible");
+      });
+    }
+
+
+    /* =======================================================
+       02. CULTURAL PLACES ARCHIVE DRAWER
+    ======================================================== */
+
+    const archiveTrack = document.querySelector(
+      "[data-archive-track]"
+    );
+
+    const drawerPrev = document.querySelector(
+      "[data-drawer-prev]"
+    );
+
+    const drawerNext = document.querySelector(
+      "[data-drawer-next]"
+    );
+
+
+    if (archiveTrack) {
+      /**
+       * 每次移动一张卡片的宽度。
+       */
+      function scrollByCard(direction) {
+        const firstCard = archiveTrack.querySelector(
+          ".place-file"
+        );
+
+        const gap = 22;
+
+        const cardWidth = firstCard
+          ? firstCard.getBoundingClientRect().width
+          : archiveTrack.clientWidth * 0.7;
+
+        archiveTrack.scrollBy({
+          left: direction * (cardWidth + gap),
+          behavior: "smooth"
+        });
+      }
+
+
+      /* Arrow buttons */
+
+      if (drawerPrev) {
+        drawerPrev.addEventListener("click", () => {
+          scrollByCard(-1);
+        });
+      }
+
+      if (drawerNext) {
+        drawerNext.addEventListener("click", () => {
+          scrollByCard(1);
+        });
+      }
+
+
+      /* Mouse and pointer drag */
+
+      let isDragging = false;
+      let pointerStartX = 0;
+      let scrollStartX = 0;
+      let hasMoved = false;
+
+      archiveTrack.addEventListener(
+        "pointerdown",
+        event => {
+          if (event.pointerType === "mouse") {
+            event.preventDefault();
+          }
+
+          isDragging = true;
+          hasMoved = false;
+
+          pointerStartX = event.clientX;
+          scrollStartX = archiveTrack.scrollLeft;
+
+          archiveTrack.classList.add("is-dragging");
+
+          if (
+            typeof archiveTrack.setPointerCapture === "function"
+          ) {
+            archiveTrack.setPointerCapture(event.pointerId);
+          }
+        }
+      );
+
+      archiveTrack.addEventListener(
+        "pointermove",
+        event => {
+          if (!isDragging) {
+            return;
+          }
+
+          const distance =
+            event.clientX - pointerStartX;
+
+          if (Math.abs(distance) > 6) {
+            hasMoved = true;
+          }
+
+          archiveTrack.scrollLeft =
+            scrollStartX - distance;
+        }
+      );
+
+      function stopDragging(event) {
+        if (!isDragging) {
+          return;
+        }
+
+        isDragging = false;
+
+        archiveTrack.classList.remove("is-dragging");
+
+        if (
+          event &&
+          typeof archiveTrack.releasePointerCapture ===
+            "function" &&
+          archiveTrack.hasPointerCapture(event.pointerId)
+        ) {
+          archiveTrack.releasePointerCapture(
+            event.pointerId
+          );
+        }
+      }
+
+      archiveTrack.addEventListener(
+        "pointerup",
+        stopDragging
+      );
+
+      archiveTrack.addEventListener(
+        "pointercancel",
+        stopDragging
+      );
+
+      archiveTrack.addEventListener(
+        "lostpointercapture",
+        () => {
+          isDragging = false;
+          archiveTrack.classList.remove("is-dragging");
+        }
+      );
+
+
+      /*
+       * 拖动后阻止打开链接，
+       * 普通点击仍然可以进入文章。
+       */
+
+      archiveTrack.addEventListener(
+        "click",
+        event => {
+          if (hasMoved) {
+            event.preventDefault();
+            event.stopPropagation();
+            hasMoved = false;
+          }
+        },
+        true
+      );
+
+
+      /* Keyboard controls */
+
+      archiveTrack.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            scrollByCard(-1);
+          }
+
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            scrollByCard(1);
+          }
+
+          if (event.key === "Home") {
+            event.preventDefault();
+
+            archiveTrack.scrollTo({
+              left: 0,
+              behavior: "smooth"
+            });
+          }
+
+          if (event.key === "End") {
+            event.preventDefault();
+
+            archiveTrack.scrollTo({
+              left: archiveTrack.scrollWidth,
+              behavior: "smooth"
+            });
+          }
+        }
+      );
+    }
+  </script>
+</body>
+</html>
